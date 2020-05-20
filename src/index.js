@@ -54,7 +54,23 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   const sendPatchRequestAndEditDom = (dogData, dogId) => {
-    fetch(`${dogsUrl}/${dogId}`)
+    fetch(`${dogsUrl}/${dogId}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+      },
+      body: JSON.stringify(dogData)
+    })
+    .then(resp => resp.json())
+    .then(dog => {
+      const dogTr = document.querySelector(`tr[data-dog-id="${dog.id}"]`)
+      dogTr.children[0].textContent = dog.name
+      dogTr.children[1].textContent = dog.breed
+      dogTr.children[2].textContent = dog.sex
+      
+    })
+
   };
 
   document.addEventListener('submit', (e) => {
@@ -63,7 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const formData = {
       name: form.name.value,
       breed: form.breed.value,
-      sex: form.breed.value
+      sex: form.sex.value
     };
 
     sendPatchRequestAndEditDom(formData, form.dataset.dogId);
