@@ -35,8 +35,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
   fetchDogsFromApi(dogsUrl);
 
-  const addDogDataToForm = () => {
+  const addDogDataToForm = (dogTr) => {
+    const name = dogTr.children[0].textContent
+    const breed = dogTr.children[1].textContent
+    const sex = dogTr.children[2].textContent
 
+    dogsForm.dataset.dogId = dogTr.dataset.dogId
+    dogsForm.children[0].value = name
+    dogsForm.children[1].value = breed
+    dogsForm.children[2].value = sex
   };  
   
   dogsTable.addEventListener('click', (e) => {
@@ -44,6 +51,24 @@ document.addEventListener('DOMContentLoaded', () => {
       // console.log(e.target.parentNode.parentNode)
       addDogDataToForm(e.target.parentNode.parentNode)
     };
+  });
+
+  const sendPatchRequestAndEditDom = (dogData, dogId) => {
+    fetch(`${dogsUrl}/${dogId}`)
+  };
+
+  document.addEventListener('submit', (e) => {
+    e.preventDefault()
+    const form = e.target
+    const formData = {
+      name: form.name.value,
+      breed: form.breed.value,
+      sex: form.breed.value
+    };
+
+    sendPatchRequestAndEditDom(formData, form.dataset.dogId);
+
+    form.reset()
   });
 
 
