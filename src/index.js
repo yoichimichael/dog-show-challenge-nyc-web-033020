@@ -8,11 +8,13 @@ const dogsUrl = "http://localhost:3000/dogs"
 
 document.addEventListener('DOMContentLoaded', () => {
   const dogsTable = document.getElementsByTagName('table')[0]
+  const dogsForm = document.getElementById('dog-form')
   // console.log(dogsTable)
 
   const makeDogTr = (dogs) => {
     dogs.forEach(dog => {
       const dogTr = document.createElement('tr')
+      dogTr.dataset.dogId = dog.id
       dogTr.innerHTML = `
       <td>${dog.name}</td>
       <td>${dog.breed}</td>
@@ -33,9 +35,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
   fetchDogsFromApi(dogsUrl);
 
+  const addDogDataToForm = () => {
 
+  };  
+  
   dogsTable.addEventListener('click', (e) => {
-    
+    if (e.target.tagName === 'BUTTON'){
+      // console.log(e.target.parentNode.parentNode)
+      addDogDataToForm(e.target.parentNode.parentNode)
+    };
   });
 
 
