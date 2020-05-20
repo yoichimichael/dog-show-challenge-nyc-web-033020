@@ -62,15 +62,29 @@ document.addEventListener('DOMContentLoaded', () => {
       },
       body: JSON.stringify(dogData)
     })
-    .then(resp => resp.json())
-    .then(dog => {
-      const dogTr = document.querySelector(`tr[data-dog-id="${dog.id}"]`)
-      dogTr.children[0].textContent = dog.name
-      dogTr.children[1].textContent = dog.breed
-      dogTr.children[2].textContent = dog.sex
-      
+    .then(() => {
+      dogsTable.innerHTML = ''
+      dogsTable.innerHTML = `
+        <thead class='blue'>
+          <tr class='padding'>
+            <th class='padding center'>Name</th>
+            <th class='padding center'>Breed</th>
+            <th class='padding center'>Sex</th>
+            <th class='padding center'>Edit Dog</th>
+          </tr>
+        </thead>
+        <tbody id="table-body">
+        </tbody>
+      `
+      fetchDogsFromApi(dogsUrl)
     })
-
+    // below is alternative method that doesn't use another fetch request
+    // .then(dog => {
+    //   const dogTr = document.querySelector(`tr[data-dog-id="${dog.id}"]`)
+    //   dogTr.children[0].textContent = dog.name
+    //   dogTr.children[1].textContent = dog.breed
+    //   dogTr.children[2].textContent = dog.sex
+    // })
   };
 
   document.addEventListener('submit', (e) => {
